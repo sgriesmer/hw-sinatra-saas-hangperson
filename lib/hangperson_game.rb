@@ -16,6 +16,8 @@ class HangpersonGame
     @word = word
     @guesses = ''
     @wrong_guesses = ''
+    s = "-"
+    @word_with_guesses = s.center(@word.length,s)
   end
   
   def guess(letter)
@@ -26,6 +28,7 @@ class HangpersonGame
     if @word.include? letter
       if !@guesses.include? letter
         @guesses << letter
+        self.search_and_replace(letter)
         return true
       else
         return false
@@ -37,6 +40,24 @@ class HangpersonGame
       else
         return false
       end
+    end
+  end
+  
+  def check_win_or_lose
+    return :lose if @wrong_guesses.length >= 7
+    return :play if @word_with_guesses.include? '-'
+    return :win
+  end
+  
+  def word_with_guesses
+    @word_with_guesses
+  end
+  
+  def search_and_replace(letter)
+    n = 0
+    while (n = @word.index(letter,n))
+      @word_with_guesses[n] = letter
+      n += 1
     end
   end
 
